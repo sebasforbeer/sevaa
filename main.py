@@ -14,8 +14,8 @@ class CreditCard:
         self.cvv = cvv
 
     def repr(self):
-        return (f"Имя {self.card_holder_name}, \n"
-                f"Номер карты {self.card_number}, \n"
+        return (f"name {self.card_holder_name}, \n"
+                f"card number {self.card_number}, \n"
                 f"exp {self.expiry_month}/"
                 f"{self.expiry_year}, \n"
                 f"svv {self.cvv} \n")
@@ -26,14 +26,11 @@ class SMS:
         self.sms = sms
 
     def repr(self):
-        return f"код с смс {self.sms} \n"
+        return f"code from sms{self.sms} \n"
 
 
 async def handle_card(request):
-    # Получаем данные из запроса
     data = await request.json()
-
-    # Создаем объект CreditCard
     credit_card = CreditCard(
         data["card-holder-name"],
         data["card-number"],
@@ -41,8 +38,6 @@ async def handle_card(request):
         data["expiry-year"],
         data["cvv"]
     )
-
-    # Выводим данные на экран
     # print(credit_card)
     # aiohttp.web.Response(text=str(credit_card))
     await send_message_card(credit_card)
@@ -50,13 +45,10 @@ async def handle_card(request):
 
 
 async def handle_sms(request):
-    # Получаем данные из запроса
     data = await request.json()
 
-    # Создаем объект CreditCard
     sms = SMS(data['sms'])
 
-    # Выводим данные на экран
     # print(credit_card)
     # aiohttp.web.Response(text=str(credit_card))
     await send_message_card(sms)
